@@ -1,6 +1,6 @@
 module.exports = {
     server: 'irc.rizon.net',
-    nick: 'aamuyo',
+    nick: 'nikkitahan',
     userName: 'aamuyo',
     realName: 'Aamuyön Ritardi'
 };
