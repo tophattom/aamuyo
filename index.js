@@ -1,22 +1,11 @@
-var irc = require('irc'),
+var fs = require('fs'),
+
+    irc = require('irc'),
     moment = require('moment-timezone'),
     
+    commandHandler = require('./command-handler.js'),
     config = require('./config.js');
 
-
-var commands = {
-    'help': {
-        callback: commandHelp
-    },
-    'yo': {
-        callback: commandNight,
-        helpString: '[aikavyöhyke]'
-    },
-    'aika': {
-        callback: commandSleepTime,
-        helpString: 'herätysaika'
-    }
-};
 
 var client = new irc.Client(
     config.server, 
@@ -42,11 +31,7 @@ client.addListener('message', function(from, to, message) {
             params = parts.slice(1);
         }
         
-        var callback = commands[command].callback;
-        
-        if (callback) {
-            callback(from, params);
-        }
+        commandHandler.handleCommand(client, from, command, params);
     }
 });
 
@@ -55,31 +40,3 @@ client.addListener('error', function(error) {
     console.dir(error);
 });
 
-
-function commandHelp(target, params) {
-    var helpString = Object.keys(commands).map(function(command) {
-        return '!' + command + ' ' + (commands[command].helpString || '');
-    }).join(' ');
-    
-    client.say(target, helpString);
-}
-
-function commandNight(target, params) {
-    var timezone = params[0] || 'Europe/Helsinki',
-        now = moment(new Date()).tz(timezone),
-        hour = now.hour();
-    
-    if (hour >= 2 && hour <= 5) {
-        client.say(target, 'On Aamuyö');
-    } else {
-        client.say(target, 'Ei Aamuyö');
-    }
-}
-
-function commandSleepTime(target, params) {
-    if (params.length === 0) {
-        return;
-    }
-    
-    
-}
