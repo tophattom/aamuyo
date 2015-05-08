@@ -48,6 +48,8 @@ function messageListener(handler) {
             }
             
             handler.handleCommand(client, from, command, params);
+        } else if (message.indexOf(config.nick) === 0) {
+            handler.handleHilight(client, from, message);
         }
     };
 }

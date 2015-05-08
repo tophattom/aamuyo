@@ -70,3 +70,7 @@ exports.handleCommand = function(client, target, command, params) {
         callback(client, target, params);
     }
 };
+
+exports.handleHilight = function(client, target, message) {
+    client.say(target, 'moi');
+};
