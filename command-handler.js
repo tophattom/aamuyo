@@ -16,6 +16,20 @@ var commands = {
     }
 };
 
+var hilightReplies = {
+    'Morkku' : ':d',
+    '<3' : '(･ω･`*)♡'
+};
+
+var randomReplies = {
+    ':d': {
+        message: ':d',
+        chance: 0.35
+    }
+};
+
+
+
 function commandHelp(client, target, params) {
     var helpString = Object.keys(commands).map(function(command) {
         return '!' + command + ' ' + (commands[command].helpString || '');
@@ -72,23 +86,22 @@ exports.handleCommand = function(client, target, command, params) {
 };
 
 exports.handleHilight = function(client, target, message) {
-    var reacts = {
-        'Morkku' : ':d',
-        '<3' : '(･ω･`*)♡'
-    };
-
-    for (var key in reacts) {
+    for (var key in hilightReplies) {
         if (message.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-            client.say(target, reacts[key]);
+            client.say(target, hilightReplies[key]);
         }
     }
 
 };
 
 exports.handleNormalMessage = function(client, target, message) {
-    if (message === ':d') {
-        if (Math.random() < 0.35) {
-            client.say(target, ':d');
+    for (var key in randomReplies) {
+        var reply = randomReplies[key];
+        
+        if (message === key) {
+            if (Math.random() <= reply.chance) {
+                client.say(target, reply.message);
+            }
         }
     }
 };
