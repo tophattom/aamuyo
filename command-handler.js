@@ -1,3 +1,5 @@
+var moment = require('moment-timezone');
+
 module.change_code = 1;
 
 var commands = {
@@ -38,6 +40,27 @@ function commandSleepTime(client, target, params) {
     if (params.length === 0) {
         return;
     }
+    
+    var wakeUpTime = moment(params[0], ['HH:mm', 'H:mm', 'HH.mm', 'H.mm']).tz('Europe/Helsinki'),
+        now = moment(new Date()).tz('Europe/Helsinki'),
+        sleepTimes = [];
+        
+    if (now.isAfter(wakeUpTime)) {
+        wakeUpTime.add(1, 'days');
+    }
+    
+    var time = moment(wakeUpTime).tz('Europe/Helsinki').subtract(90, 'minutes');
+    
+    while (!time.isBefore(now)) {
+        sleepTimes.push(time);
+        time = moment(time).tz('Europe/Helsinki').subtract(90, 'minutes');
+    }
+    
+    var answer = sleepTimes.reverse().map(function(t) {
+        return t.format('HH:mm');
+    }).slice(0, 3).join('/');
+    
+    client.say(target, 'Mene nukkumaan: ' + answer);
 }
 
 exports.handleCommand = function(client, target, command, params) {
