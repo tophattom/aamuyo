@@ -84,3 +84,11 @@ exports.handleHilight = function(client, target, message) {
     }
 
 };
+
+exports.handleNormalMessage = function(client, target, message) {
+    if (message === ':d') {
+        if (Math.random() < 0.35) {
+            client.say(target, ':d');
+        }
+    }
+};
