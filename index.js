@@ -29,6 +29,9 @@ client.addListener('motd', function(motd) {
 });
 
 client.addListener('message', messageListener(commandHandler));
+client.addListener('ctcp-version', function(from, to, message) {
+	client.notice(from, 'Aamuyön paimen :d (node.js)');
+});
 
 client.addListener('error', function(error) {
     console.error('error: ' + error);
