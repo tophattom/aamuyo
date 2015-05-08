@@ -9,6 +9,7 @@
   "author": "Jaakko Rinta-Filppula",
   "license": " ",
   "dependencies": {
+    "hotswap": "^1.1.0",
     "irc": "^0.3.12",
     "moment-timezone": "^0.3.1"
   }

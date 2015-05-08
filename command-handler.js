@@ -1,3 +1,5 @@
+module.change_code = 1;
+
 var commands = {
     'help': {
         callback: commandHelp
@@ -36,8 +38,6 @@ function commandSleepTime(client, target, params) {
     if (params.length === 0) {
         return;
     }
-    
-    
 }
 
 exports.handleCommand = function(client, target, command, params) {
