@@ -1,5 +1,7 @@
 var irc = require('irc'),
-    moment = require('moment-timezone');
+    moment = require('moment-timezone'),
+    
+    config = require('./config.js');
 
 
 var commands = {
@@ -17,11 +19,11 @@ var commands = {
 };
 
 var client = new irc.Client(
-    'irc.rizon.net', 
-    'aamuyo', 
+    config.server, 
+    config.nick, 
     {
-        userName: 'aamuyo',
-        realName: 'Aamuyön Ritardi',
+        userName: config.nickName,
+        realName: config.realName,
         stripColors: true
     }
 );
