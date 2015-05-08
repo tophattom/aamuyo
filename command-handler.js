@@ -74,7 +74,8 @@ exports.handleCommand = function(client, target, command, params) {
 exports.handleHilight = function(client, target, message) {
     var reacts = {
         'Morkku' : ':d',
-        '<3' : '(･ω･`*)♡' };
+        '<3' : '(･ω･`*)♡'
+    };
 
     for (var key in reacts) {
         if (message.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
