@@ -17,7 +17,7 @@ var commands = {
 function commandHelp(client, target, params) {
     var helpString = Object.keys(commands).map(function(command) {
         return '!' + command + ' ' + (commands[command].helpString || '');
-    }).join(' ');
+    }).join('; ');
     
     client.say(target, helpString);
 }
