@@ -94,7 +94,28 @@ exports.handleHilight = function(client, target, message) {
 
 };
 
+// msgHist stores the last 3 messages passed to handleNormalMessage..
+var msgHist = [];
 exports.handleNormalMessage = function(client, target, message) {
+	// sed-like substitute.. I should, maybe?, add the nick of the
+	// original sender too, tho, or not, hmm.
+	if (message.slice(0,2) === 's/' && message.slice(-1) === '/') {
+		r = message.split('/')[1];
+		w = message.split('/')[2];
+		msgHist.forEach(function(msg) {
+
+			if (msg.indexOf(r) !== -1) {
+				client.say(target, msg.replace(r,w));
+			}
+		})
+	} // keep last 3 messages
+	if (msgHist.lenght < 3) {
+		msgHist.push(message);
+	} else {
+		msgHist.shift();
+		msgHist.push(message);
+	}
+
     for (var key in randomReplies) {
         var reply = randomReplies[key];
         
