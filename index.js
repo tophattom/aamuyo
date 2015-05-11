@@ -20,7 +20,8 @@ var client = new irc.Client(
     {
         userName: config.nickName,
         realName: config.realName,
-        stripColors: true
+        stripColors: true,
+        channels: config.channels
     }
 );
 
@@ -41,6 +42,8 @@ client.addListener('error', function(error) {
 
 function messageListener(handler) {
     return function(from, to, message) {
+        var target = to === config.nick ? from : to;
+        
         if (message.charAt(0) === '!') {
             var parts = message.split(' '),
                 command = parts[0].slice(1),
@@ -50,11 +53,11 @@ function messageListener(handler) {
                 params = parts.slice(1);
             }
             
-            handler.handleCommand(client, from, command, params);
+            handler.handleCommand(client, from, target, command, params);
         } else if (message.indexOf(config.nick) === 0) {
-            handler.handleHilight(client, from, message);
+            handler.handleHilight(client, from, target, message);
         } else {
-            handler.handleNormalMessage(client, from, message);
+            handler.handleNormalMessage(client, from, target, message);
         }
     };
 }

@@ -77,7 +77,7 @@ function commandSleepTime(client, target, params) {
     client.say(target, 'Mene nukkumaan: ' + answer);
 }
 
-exports.handleCommand = function(client, target, command, params) {
+exports.handleCommand = function(client, sender, target, command, params) {
     var callback = commands[command].callback;
     
     if (callback) {
@@ -85,7 +85,7 @@ exports.handleCommand = function(client, target, command, params) {
     }
 };
 
-exports.handleHilight = function(client, target, message) {
+exports.handleHilight = function(client, sender, target, message) {
     for (var key in hilightReplies) {
         if (message.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
             client.say(target, hilightReplies[key]);
@@ -98,7 +98,7 @@ exports.handleHilight = function(client, target, message) {
 var msgHist = [],
     sedExp = new RegExp('s\/(.+?)\/(.+?)\/(g)?');
 
-exports.handleNormalMessage = function(client, target, message) {
+exports.handleNormalMessage = function(client, sender, target, message) {
 	// sed-like substitute.. I should, maybe?, add the nick of the
 	// original sender too, tho, or not, hmm.
     var sedMatch = message.match(sedExp);
