@@ -88,7 +88,7 @@ exports.handleCommand = function(client, sender, target, command, params) {
 exports.handleHilight = function(client, sender, target, message) {
     for (var key in hilightReplies) {
         if (message.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-            client.say(target, hilightReplies[key]);
+            client.say(target, sender + ': ' + hilightReplies[key]);
         }
     }
 
