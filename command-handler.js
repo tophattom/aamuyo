@@ -117,9 +117,9 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		var r = new RegExp(sedMatch[1], sedMatch[3] || ''),
             w = sedMatch[2];
         
-		for (i=0; i < msgHist.length; i++ ) {
-			if (msgHist.reverse()[i].search(r) !== -1) {
-				client.say(target, msgHist.reverse()[i].replace(r, w));
+		for (i=msgHist.length-1; i > -1; i--) {
+			if (msgHist[i].search(r) !== -1) {
+				client.say(target, msgHist[i].replace(r, w));
 				break;
 			}
 		};
