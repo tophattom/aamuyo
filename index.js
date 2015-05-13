@@ -20,8 +20,8 @@ var client = new irc.Client(
     {
         userName: config.nickName,
         realName: config.realName,
-        stripColors: true,
-        channels: config.channels
+        channels: config.channels,
+        stripColors: true
     }
 );
 

@@ -1,4 +1,5 @@
-var moment = require('moment-timezone');
+var moment = require('moment-timezone'),
+	config = require('./config.js');
 
 module.change_code = 1;
 
@@ -13,7 +14,10 @@ var commands = {
     'aika': {
         callback: commandSleepTime,
         helpString: 'herätysaika'
-    }
+    },
+	'join': {
+		callback: commandJoin
+	}
 };
 
 var hilightReplies = {
@@ -28,6 +32,12 @@ var randomReplies = {
     }
 };
 
+
+function commandJoin(client, from, params) {
+	if (config.admins.indexOf(from) !== -1) { 
+	client.join(params[0]);
+	}
+}
 
 
 function commandHelp(client, target, params) {
