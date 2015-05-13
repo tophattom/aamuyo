@@ -33,8 +33,8 @@ client.addListener('message', messageListener(commandHandler));
 
 client.addListener('+mode', function(chan, by, mode) {
 	if (['v', 'o'].indexOf(mode) !== -1 && Math.random() <= 0.2) {
-	client.say(chan, 'ebin :d')}
-
+        client.say(chan, 'ebin :d');
+    }
 });
 
 client.addListener('ctcp-version', function(from, to, message) {
