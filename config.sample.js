@@ -3,6 +3,6 @@ module.exports = {
     nick: 'nikkitahan',
     userName: 'aamuyo',
     realName: 'Aamuyön Ritardi',
-	admins: 'nick1 nick2',
+	admins: ['nick1', 'nick2'],
     channels: ['#testi']
 };

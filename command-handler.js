@@ -35,7 +35,7 @@ var randomReplies = {
 
 function commandJoin(client, from, params) {
 	if (config.admins.indexOf(from) !== -1) { 
-	client.join(params[0]);
+		client.join(params.join(' '));
 	}
 }
 
