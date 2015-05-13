@@ -21,7 +21,7 @@ var commands = {
 };
 
 var hilightReplies = {
-    'Morkku' : ':d',
+    'TiTe?' : 'Sovinisteja!!',
     '<3' : '(･ω･`*)♡'
 };
 
@@ -117,11 +117,12 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		var r = new RegExp(sedMatch[1], sedMatch[3] || ''),
             w = sedMatch[2];
         
-		msgHist.forEach(function(msg) {
-			if (msg.search(r) !== -1) {
-				client.say(target, msg.replace(r, w));
+		for (i=0; i < msgHist.length; i++ ) {
+			if (msgHist.reverse()[i].search(r) !== -1) {
+				client.say(target, msgHist.reverse()[i].replace(r, w));
+				break;
 			}
-		});
+		};
 	}
     
     // keep last 3 messages
