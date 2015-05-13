@@ -28,7 +28,8 @@ var hilightReplies = {
 var randomReplies = {
     ':d': {
         message: ':d',
-        chance: 0.35
+        chance: 0.35,
+		maxDelay: 5000
     }
 };
 
@@ -136,7 +137,9 @@ exports.handleNormalMessage = function(client, sender, target, message) {
         
         if (message === key) {
             if (Math.random() <= reply.chance) {
-                client.say(target, reply.message);
+				setTimeout(function() {
+					client.say(target, reply.message);
+				}, Math.random() * reply.maxDelay);
             }
         }
     }
