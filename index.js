@@ -32,7 +32,7 @@ client.addListener('motd', function(motd) {
 client.addListener('message', messageListener(commandHandler));
 
 client.addListener('+mode', function(chan, by, mode) {
-	if (['v', 'o'].indexOf('mode') !== -1 && Math.random() <= 0.2) {
+	if (['v', 'o'].indexOf(mode) !== -1 && Math.random() <= 0.2) {
 	client.say(chan, 'ebin :d')}
 
 });
