@@ -18,7 +18,7 @@ var client = new irc.Client(
     config.server, 
     config.nick, 
     {
-        userName: config.nickName,
+        userName: config.userName,
         realName: config.realName,
         channels: config.channels,
         stripColors: true
@@ -39,11 +39,20 @@ client.addListener('+mode', function(chan, by, mode) {
 
 client.addListener('ctcp-version', function(from, to, message) {
     client.notice(from, 'Aamuyön paimen :d (node.js)');
+	console.log('[ctcp]', from, 'version\'d');
 });
 
 client.addListener('error', function(error) {
     console.error('error: ' + error);
     console.dir(error);
+});
+
+// Give ops to admins <3
+client.addListener('join', function(chan, who, message) {
+	if (config.admins.indexOf(who) !== -1) {
+		client.send('MODE', chan, '+o', who);
+		console.log('[join]', who, 'on', chan, 'oppe\'d');
+	}
 });
 
 

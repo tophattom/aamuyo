@@ -7,7 +7,7 @@ var commands = {
     'help': {
         callback: commandHelp
     },
-    'yo': {
+    'yö': {
         callback: commandNight,
         helpString: '[aikavyöhyke]'
     },
@@ -105,13 +105,11 @@ exports.handleHilight = function(client, sender, target, message) {
 
 };
 
-// msgHist stores the last 3 messages passed to handleNormalMessage..
+// msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
     sedExp = new RegExp('s\/(.+?)\/(.+?)\/(g)?');
 
 exports.handleNormalMessage = function(client, sender, target, message) {
-	// sed-like substitute.. I should, maybe?, add the nick of the
-	// original sender too, tho, or not, hmm.
     var sedMatch = message.match(sedExp);
     if (sedMatch !== null) {
 		var r = new RegExp(sedMatch[1], sedMatch[3] || ''),
@@ -125,8 +123,8 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		};
 	}
     
-    // keep last 3 messages
-	if (msgHist.length < 3) {
+    // keep last X messages
+	if (msgHist.length < 15) {
 		msgHist.push(message);
 	} else {
 		msgHist.shift();
