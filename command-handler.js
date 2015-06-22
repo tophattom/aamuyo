@@ -107,7 +107,7 @@ exports.handleHilight = function(client, sender, target, message) {
 
 // msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
-    sedExp = new RegExp('s\/(.+?)\/(.+?)\/(g)?');
+    sedExp = new RegExp('s\/(.+?)\/(.+?)\/((?:g|i)(?:g|i)?)?');
 
 exports.handleNormalMessage = function(client, sender, target, message) {
     var sedMatch = message.match(sedExp);
@@ -120,7 +120,7 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 				client.say(target, msgHist[i].replace(r, w));
 				break;
 			}
-		};
+		}
 	}
     
     // keep last X messages
