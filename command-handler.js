@@ -89,7 +89,7 @@ function commandSleepTime(client, target, params) {
 }
 
 exports.handleCommand = function(client, sender, target, command, params) {
-    var callback = commands[command].callback;
+    var callback = commands[command] ? commands[command].callback : false;
     
     if (callback) {
         callback(client, target, params);
