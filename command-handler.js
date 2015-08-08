@@ -17,6 +17,9 @@ var commands = {
     },
 	'join': {
 		callback: commandJoin
+	},
+	'say': {
+		callback: commandSay
 	}
 };
 
@@ -28,7 +31,7 @@ var hilightReplies = {
 var randomReplies = {
     ':d': {
         message: ':d',
-        chance: 0.35,
+        chance: 0.237,
 		maxDelay: 5000
     }
 };
@@ -37,6 +40,12 @@ var randomReplies = {
 function commandJoin(client, from, params) {
 	if (config.admins.indexOf(from) !== -1) { 
 		client.join(params.join(' '));
+	}
+}
+
+function commandSay(client, from, params) {
+	if (config.admins.indexOf(from) !== -1) {
+		client.say(params[0], params.slice(1).join(' '));
 	}
 }
 
