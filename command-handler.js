@@ -134,9 +134,9 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 	}
     
 	//One of us.. one of us.. one of us.. one of us..
+	msgHist.reverse(); //there has to be a better way
 	for (i=0; i<4; i++) {
-		var revHist = msgHist.reverse();
-		if (message == revHist[i] && message !== ":d") { // && message not in randomReplies would be better, fix me :D
+		if (message == msgHist[i] && message !== ":d") { // && message not in randomReplies would be better, fix me :D
 			oou++;
 			if (oou == 3 && Math.random() < 0.8) {
 				client.say(target, message);
@@ -146,6 +146,7 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 			}
 		}
 	}
+	msgHist.reverse();
 	if (oou > 0) {
 		oou = 0;
 	}
