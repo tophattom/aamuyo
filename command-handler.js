@@ -117,7 +117,8 @@ exports.handleHilight = function(client, sender, target, message) {
 // msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
     sedExp = new RegExp('s\/(.+?)\/(.+?)\/((?:g|i)(?:g|i)?)?'),
-	oou = 0;
+	oneOfUsLimit = 4,
+	messageRepeats = 0;
 
 exports.handleNormalMessage = function(client, sender, target, message) {
     var sedMatch = message.match(sedExp);
@@ -133,22 +134,32 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		}
 	}
     
-	//One of us.. one of us.. one of us.. one of us..
-	for (i=0; i<4; i++) {
-		var revHist = msgHist.reverse();
-		if (message == revHist[i] && message !== ":d") { // && message not in randomReplies would be better, fix me :D
-			oou++;
-			if (oou == 3 && Math.random() < 0.8) {
+	// Check if we have reply for the message
+	if (Object.keys(randomReplies).indexOf(message) > -1) {
+		var reply = randomReplies[message];
+		
+		if (Math.random() < reply.chance) {
+			setTimeout(function() {
+				client.say(target, reply.message);
+			}, Math.random() * reply.maxDelay);
+		}
+	} else {	// Check if the message has been repeated
+		var repeatMessage = msgHist.slice(-oneOfUsLimit).filter(function(oldMessage) {
+			return oldMessage === message;
+		}).length === oneOfUsLimit;
+		
+		if (repeatMessage) {
+			if (Math.random() < (0.5 - messageRepeats / 9)) {
 				client.say(target, message);
-				console.log("One of us.. " + message + oou);
-				oou = -4; //lazy maybe but eh..
-				break;
+				messageRepeats++;
+				
+				console.log('One of us...', message);
 			}
+		} else {
+			messageRepeats = 0;
 		}
 	}
-	if (oou > 0) {
-		oou = 0;
-	}
+	
 
     // keep last X messages, which are not like "s/a/b/<gi>"
 	if (message.indexOf('s/') !== 0 && message.split('/').length-1 !== 3) {
@@ -159,16 +170,4 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 			msgHist.push(message);
 		}
 	}
-
-    for (var key in randomReplies) {
-		var reply = randomReplies[key];
-        
-        if (message === key) {
-            if (Math.random() <= reply.chance) {
-				setTimeout(function() {
-					client.say(target, reply.message);
-				}, Math.random() * reply.maxDelay);
-            }
-        }
-    }
 };
