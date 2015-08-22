@@ -116,7 +116,8 @@ exports.handleHilight = function(client, sender, target, message) {
 
 // msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
-    sedExp = new RegExp('s\/(.+?)\/(.+?)\/((?:g|i)(?:g|i)?)?');
+    sedExp = new RegExp('s\/(.+?)\/(.+?)\/((?:g|i)(?:g|i)?)?'),
+	oou = 0;
 
 exports.handleNormalMessage = function(client, sender, target, message) {
     var sedMatch = message.match(sedExp);
@@ -132,6 +133,23 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		}
 	}
     
+	//One of us.. one of us.. one of us.. one of us..
+	for (i=0; i<4; i++) {
+		var revHist = msgHist.reverse();
+		if (message == revHist[i]) {
+			oou++;
+			if (oou == 3 && Math.random() < 0.999) {
+				client.say(target, message);
+				console.log("One of us.. " + message + oou);
+				oou = -4; //lazy maybe but eh..
+				break;
+			}
+		}
+	}
+	if (oou > 0) {
+		oou = 0;
+	}
+
     // keep last X messages, which are not like "s/a/b/<gi>"
 	if (message.indexOf('s/') !== 0 && message.split('/').length-1 !== 3) {
 		if (msgHist.length < 15) {
