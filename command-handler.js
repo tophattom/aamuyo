@@ -1,4 +1,6 @@
-var moment = require('moment-timezone'),
+var http = require('http'),
+
+	moment = require('moment-timezone'),
 	config = require('./config.js');
 
 module.change_code = 1;
@@ -117,6 +119,10 @@ exports.handleHilight = function(client, sender, target, message) {
 // msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
     sedExp = new RegExp('s\/(.+?)\/(.+?)\/((?:g|i)(?:g|i)?)?'),
+	
+	urlExp = new RegExp('\s?(https?:\/\/.+) '),
+	urlLengthLimit = 60,
+	
 	oneOfUsLimit = 4,
 	messageRepeats = 0;
 
@@ -157,6 +163,30 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 			}
 		} else {
 			messageRepeats = 0;
+		}
+	}
+	
+	// Check if the message has a long url and shorten it
+	var urlMatch = message.match(urlExp);
+	if (urlMatch !== null) {
+		var url = urlMatch[1];
+		
+		if (url.length > urlLengthLimit) {
+			var result = '';
+			
+			var req = http.get('http://urly.fi/api/shorten/?url=' + url, function(res) {
+				res.on('data', function(data) {
+					result += data.toString();
+				});
+			});
+			
+			req.on('close', function() {
+				client.say(target, 'Lyhennetty\'d: http://urly.fi/' + result);
+			});
+			
+			req.on('error', function(err) {
+				console.error(err);
+			});
 		}
 	}
 	
