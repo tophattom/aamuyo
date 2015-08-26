@@ -18,10 +18,12 @@ var commands = {
         helpString: 'herätysaika'
     },
 	'join': {
-		callback: commandJoin
+		callback: commandJoin,
+		hide: true
 	},
 	'say': {
-		callback: commandSay
+		callback: commandSay,
+		hide: true
 	}
 };
 
@@ -53,9 +55,13 @@ function commandSay(client, from, params) {
 
 
 function commandHelp(client, target, params) {
-    var helpString = Object.keys(commands).map(function(command) {
-        return '!' + command + ' ' + (commands[command].helpString || '');
-    }).join('; ');
+    var helpString = Object.keys(commands)
+		.filter(function(command) {
+			return !commands[command].hide;
+		})
+		.map(function(command) {
+	        return '!' + command + ' ' + (commands[command].helpString || '');
+	    }).join('; ');
     
     client.say(target, helpString);
 }
