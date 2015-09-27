@@ -199,7 +199,7 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 
     // keep last X messages, which are not like "s/a/b/<gi>"
 	if (message.indexOf('s/') !== 0 && message.split('/').length-1 !== 3) {
-		if (msgHist.length < 15) {
+		if (msgHist.length < 50) {
 			msgHist.push(message);
 		} else {
 			msgHist.shift();
