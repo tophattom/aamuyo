@@ -47,11 +47,17 @@ client.addListener('error', function(error) {
     console.dir(error);
 });
 
-// Give ops to admins <3
+// Give ops to admins <3 ..and others.
 client.addListener('join', function(chan, who, message) {
 	if (config.admins.indexOf(who) !== -1) {
 		client.send('MODE', chan, '+o', who);
 		console.log('[join]', who, 'on', chan, 'oppe\'d');
+	} else if (config.giveOp.indexOf(who) !== -1) {
+		client.send('MODE', chan, '+o', who);
+		console.log('[join]', who, 'on', chan, 'oppe\'d');
+	} else if (config.giveVoice.indexOf(who) !== -1) {
+		client.send('MODE', chan, '+v', who);
+		console.log('[join]', who, 'on', chan, 'voice\'d');
 	}
 });
 
