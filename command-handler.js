@@ -28,6 +28,7 @@ var commands = {
 };
 
 var hilightReplies = {
+	'Come at me bro!' : '(╯°□°）╯︵ /(.□. \\)',
     'TiTe?' : 'Sovinisteja!!',
     '<3' : '(･ω･`*)♡'
 };
@@ -133,17 +134,22 @@ var msgHist = [],
 	messageRepeats = 0;
 
 exports.handleNormalMessage = function(client, sender, target, message) {
-    var sedMatch = message.match(sedExp);
-    if (sedMatch !== null) {
-		var r = new RegExp(sedMatch[1], sedMatch[3] || ''),
-            w = sedMatch[2];
-        
-		for (i=msgHist.length-1; i > -1; i--) {
-			if (msgHist[i].search(r) !== -1) {
-				client.say(target, msgHist[i].replace(r, w));
-				break;
+
+	try {
+		var sedMatch = message.match(sedExp);
+		if (sedMatch !== null) {
+			var r = new RegExp(sedMatch[1], sedMatch[3] || ''),
+				w = sedMatch[2];
+			
+			for (i=msgHist.length-1; i > -1; i--) {
+				if (msgHist[i].search(r) !== -1) {
+					client.say(target, msgHist[i].replace(r, w));
+					break;
+				}
 			}
 		}
+	} catch (e) {
+		console.log("[ERR] invalid regex w/ sed");
 	}
     
 	// Check if we have reply for the message
