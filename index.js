@@ -29,6 +29,35 @@ client.addListener('motd', function(motd) {
     console.log('connected');
 });
 
+// --- check connection status --
+var pinged_at = Date.now(),
+	ponged_at = Date.now();
+
+client.addListener('ping', function(server) {
+	pinged_at = Date.now();
+});
+
+client.addListener('pong', function(server) {
+	ponged_at = Date.now();
+});
+
+function checkConn() { //have I been pinged lately?
+	if (pinged_at < Date.now() - 240000) {
+		client.send('PING', config.server);
+		setTimeout(checkPonged, 60000); //60s for the server to respond
+	}
+}
+
+function checkPonged() { //reconnect if no pong's in last 240s
+	if (ponged_at < Date.now() - 240000) {
+		client.disconnect('Server didn\'t PONG me back');
+		setTimeout( function() {client.connect();}, 240000);
+	}
+}
+
+var checkConnRepeat = setInterval(checkConn, 60*10*1000);
+// --- end of check connection status ---
+
 client.addListener('message', messageListener(commandHandler));
 
 client.addListener('+mode', function(chan, by, mode) {
