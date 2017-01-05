@@ -1,4 +1,4 @@
-var http = require('http'),
+var http = require('https'),
 
 	moment = require('moment-timezone'),
 	config = require('./config.js');
@@ -186,14 +186,14 @@ exports.handleNormalMessage = function(client, sender, target, message) {
 		if (url.length > urlLengthLimit) {
 			var result = '';
 			
-			var req = http.get('http://urly.fi/api/shorten/?url=' + url, function(res) {
+			var req = http.get('https://urly.fi/api/shorten/?url=' + url, function(res) {
 				res.on('data', function(data) {
 					result += data.toString();
 				});
 			});
 			
 			req.on('close', function() {
-				client.say(target, 'Lyhennetty\'d: http://urly.fi/' + result);
+				client.say(target, 'Lyhennetty\'d: https://urly.fi/' + result);
 			});
 			
 			req.on('error', function(err) {
