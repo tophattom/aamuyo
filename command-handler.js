@@ -125,7 +125,7 @@ exports.handleHilight = function(client, sender, target, message) {
 
 // msgHist stores the last X messages passed to handleNormalMessage..
 var msgHist = [],
-    sedExp = new RegExp('s\/(.+?)\/(.?|.+?)\/((?:g|i)(?:g|i)?)?'),
+    sedExp = new RegExp('^s\/(.+?)\/(.?|.+?)\/((?:g|i)(?:g|i)?)?'),
 	
 	urlExp = new RegExp('\s?(https?:\/\/[^\r\n\t\f ]*)'),
 	urlLengthLimit = 55,
